@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<OrderedTest name="homecontrollertest" storage="c:\users\miriyals\documents\visual studio 2012\projects\photosharingapp\photosharingapp.tests\controllers\homecontrollertest.orderedtest" id="909157ff-7bf8-4c96-a49d-b8803f560e55" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestLinks>
+    <TestLink id="62d602fe-987b-0fca-1b9d-b25daeee05ef" name="TestRegisterForValidUser" storage="..\bin\debug\photosharingapp.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="2e99df7e-4931-15e5-a8eb-42266cb758a7" name="TestLoginForValidCredentials" storage="..\bin\debug\photosharingapp.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="6763b8fc-02db-af7f-70ef-179bcf7d5ac7" name="TestLoginForInValidCredentials" storage="..\bin\debug\photosharingapp.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="188508cf-b819-f57e-7b67-4d7705968257" name="TestRegisterForInValidUser" storage="..\bin\debug\photosharingapp.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  </TestLinks>
+</OrderedTest>

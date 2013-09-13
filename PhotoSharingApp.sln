@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoSharingApp", "PhotoSharingApp\PhotoSharingApp.csproj", "{65477F47-EB19-429F-AF98-DA2516A2679E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoSharingApp.Tests", "PhotoSharingApp.Tests\PhotoSharingApp.Tests.csproj", "{D6E9B746-ED1F-4C6C-9F43-5C0D5EDBB265}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{65477F47-EB19-429F-AF98-DA2516A2679E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65477F47-EB19-429F-AF98-DA2516A2679E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65477F47-EB19-429F-AF98-DA2516A2679E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65477F47-EB19-429F-AF98-DA2516A2679E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6E9B746-ED1F-4C6C-9F43-5C0D5EDBB265}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6E9B746-ED1F-4C6C-9F43-5C0D5EDBB265}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6E9B746-ED1F-4C6C-9F43-5C0D5EDBB265}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6E9B746-ED1F-4C6C-9F43-5C0D5EDBB265}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
