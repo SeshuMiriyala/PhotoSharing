@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using PhotoSharingApp.App_Start;
 
 namespace PhotoSharingApp
 {
@@ -19,6 +20,7 @@ namespace PhotoSharingApp
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
+            GlobalConfiguration.Configuration.MessageHandlers.Add(new BasicAuthenticationHandler());
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
