@@ -13,6 +13,19 @@ namespace PhotoSharingApp.Controllers
         public string UserName { get; set; }
         public string Password { get; set; }
     }
+    public class KeyValueObject
+    {
+        public string Key { get; set; }
+    }
+    public class RegisterParams
+    {
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
+    }
     public class HomeController : ApiController
     {
         private HomeContext _db = new HomeContext();
@@ -41,15 +54,21 @@ namespace PhotoSharingApp.Controllers
                 {
                     response = request.CreateResponse(HttpStatusCode.OK);
                     AccessTokenManager.GenerateAccessToken(loginModel.UserName);
+                    response.Content = new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("0")));
                 }
                 else
                 {
-                    response = request.CreateResponse(HttpStatusCode.Gone);
+                    response = request.CreateResponse(HttpStatusCode.OK);
+                    if(String.IsNullOrEmpty(loginModel.Password))
+                        response.Content = new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("1")));
+                    else
+                        response.Content = new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("2")));
                 }
             }
             else
             {
                 response = request.CreateResponse(HttpStatusCode.OK);
+                response.Content = new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("0")));
             }
             return response;
         }
@@ -57,9 +76,50 @@ namespace PhotoSharingApp.Controllers
         [AcceptVerbs("POST")]
         [ActionName("Register")]
         [HttpPost]
-        public bool Register(string userName, string password, string firstName, string lastName, string middleName, string emailId)
+        public HttpResponseMessage Register(HttpRequestMessage request)
         {
-            return _db.RegisterUser(userName, password, firstName, lastName, middleName, emailId);
+            var stream = request.Content.ReadAsStringAsync().Result;
+            var registerModel = Newtonsoft.Json.JsonConvert.DeserializeObject<RegisterParams>(Encoding.Default.GetString(Convert.FromBase64String(stream)));
+            var response = request.CreateResponse(HttpStatusCode.OK);
+            if (_db.RegisterUser(registerModel.UserName, registerModel.Password, registerModel.FirstName,
+                                 registerModel.LastName, registerModel.MiddleName, registerModel.Email))
+            {
+                response.Content = new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("0")));
+                AccessTokenManager.GenerateAccessToken(registerModel.UserName);
+            }
+            else
+                response.Content = new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("2")));
+            return response;
+        }
+
+        [AcceptVerbs("POST")]
+        [ActionName("IsValidEmail")]
+        [HttpPost]
+        public HttpResponseMessage IsValidEmail(HttpRequestMessage request)
+        {
+            var stream = request.Content.ReadAsStringAsync().Result;
+            var registerModel = Newtonsoft.Json.JsonConvert.DeserializeObject < KeyValueObject>(Encoding.Default.GetString(Convert.FromBase64String(stream)));
+            var response = request.CreateResponse(HttpStatusCode.OK);
+            if (_db.IsValidEmail(registerModel.Key))
+                response.Content = new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("0")));
+            else
+                response.Content = new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("1")));
+            return response;
+        }
+
+        [AcceptVerbs("POST")]
+        [ActionName("IsValidUserName")]
+        [HttpPost]
+        public HttpResponseMessage IsValidUserName(HttpRequestMessage request)
+        {
+            var stream = request.Content.ReadAsStringAsync().Result;
+            var registerModel = Newtonsoft.Json.JsonConvert.DeserializeObject<KeyValueObject>(Encoding.Default.GetString(Convert.FromBase64String(stream)));
+            var response = request.CreateResponse(HttpStatusCode.OK);
+            if (_db.IsValidUserName(registerModel.Key))
+                response.Content = new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("0")));
+            else
+                response.Content = new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("1")));
+            return response;
         }
 
         // GET api/home/5

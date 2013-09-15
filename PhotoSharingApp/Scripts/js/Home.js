@@ -7,10 +7,21 @@
         var config = { method: 'POST', url: '/api/home/login', data: { userName: scope.username, password: scope.password }, withCredentials: true, headers: { 'Content-Type': 'application/x-www-form-urlencoded, application/xml, application/json', 'Authorization': 'Basic ' + x, 'accept': "application/json" } };
         AjaxCall(config
         ,function (data, status, headers) {
-                // succefull login
-            var username = scope.username;
-            scope.IsLogged = true;
-            $cookieStore.put('user', username);
+            // succefull login
+            var result = atob(data);
+            if ("0" == result) {
+                var username = scope.username;
+                scope.IsLogged = true;
+                $cookieStore.put('user', username);
+            }
+            else if ("1" == result) {
+                alert('Session expired.');
+                scope.logout();
+            }
+            else if ("2" == result) {
+                alert("Login failed.");
+                scope.logout();
+            }
         }
         , function (data, status, headers) {
             scope.IsLogged = false;
@@ -19,17 +30,26 @@
         , $http);
     };
     scope.IsSignInVisible = false;
-    scope.IsLogged = false;
     
     scope.init = function () {
         scope.IsUserLoggedIn();
     };
 
     scope.IsUserLoggedIn = function () {
-        user.getStatus(function() {
-            scope.IsLogged = true;
-            return true;
-        }, function() {
+        user.getStatus(function (data) {
+            var result = atob(data);
+            if ("0" == result) {
+                scope.IsLogged = true;
+                return true;
+            }
+            else {
+                scope.username = '';
+                scope.password = '';
+                $cookieStore.remove('user');
+                scope.IsLogged = false;
+                return false;
+            }
+        }, function(data) {
             scope.username = '';
             scope.password = '';
             $cookieStore.remove('user');
@@ -38,8 +58,17 @@
         });
     };
     scope.CheckLogin = function () {
-        user.getStatus(function() {
-            alert('LoggedIn');
+        user.getStatus(function(data) {
+            var result = atob(data);
+            if ("0" == result) {
+                alert("Logged In");
+            }
+            else if ("1" == result) {
+                alert('Session expired.');
+            }
+            else if ("2" == result) {
+                alert("Login failed.");
+            }
         }, function() {
             alert('LoggedOut');
         });
