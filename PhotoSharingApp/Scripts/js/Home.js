@@ -1,4 +1,4 @@
-﻿var loginCtrl = sharingApp.controller('loginCtrl', ['$scope', '$http', '$location', 'UserService', '$cookieStore', function (scope, $http, $location, User, $cookieStore) {
+﻿var loginCtrl = sharingApp.controller('loginCtrl', ['$scope', '$http', '$location', 'UserService', '$cookieStore', function (scope, $http, $location, user, $cookieStore) {
     scope.toggleSignIn = function() {
         scope.IsSignInVisible = !scope.IsSignInVisible;
     };
@@ -6,63 +6,58 @@
         var x = btoa(scope.username + ':' + scope.password);
         var config = { method: 'POST', url: '/api/home/login', data: { userName: scope.username, password: scope.password }, withCredentials: true, headers: { 'Content-Type': 'application/x-www-form-urlencoded, application/xml, application/json', 'Authorization': 'Basic ' + x, 'accept': "application/json" } };
         AjaxCall(config
-        ,function (data, status, headers, config) {
-            if ('200' == status) {
+        ,function (data, status, headers) {
                 // succefull login
-                User.isLogged = true;
-                scope.IsSignInVisible = !scope.IsSignInVisible;
-                User.username = scope.username;
-                $cookieStore.put('user', User);
-            }
-            else {
-                User.isLogged = false;
-                User.username = '';
-            }
+            var username = scope.username;
+            scope.IsLogged = true;
+            $cookieStore.put('user', username);
         }
-        ,function (data, status, headers, config) {
-            User.isLogged = false;
-            User.username = '';
+        , function (data, status, headers) {
+            scope.IsLogged = false;
+            $cookieStore.remove('user');
         }
-        , $cookieStore, $http, scope);
+        , $http);
     };
     scope.IsSignInVisible = false;
+    scope.IsLogged = false;
+    
+    scope.init = function () {
+        scope.IsUserLoggedIn();
+    };
 
     scope.IsUserLoggedIn = function () {
-        if (undefined == $cookieStore.get('user'))
+        user.getStatus(function() {
+            scope.IsLogged = true;
+            return true;
+        }, function() {
+            scope.username = '';
+            scope.password = '';
+            $cookieStore.remove('user');
+            scope.IsLogged = false;
             return false;
-        else {
-
-            return $cookieStore.get('user').isLogged;
-        }
+        });
     };
-    scope.CheckLogin = function() {
-        var x = btoa(scope.username + ':' + scope.password);
-        var config = { method: 'POST', url: '/api/home', data: { userName: scope.username, password: scope.password }, withCredentials: true, headers: { 'Content-Type': 'application/x-www-form-urlencoded, application/xml, application/json', 'Authorization': 'Basic ' + x, 'accept': "application/json" } };
-        window.AjaxCall(config
-        ,function (data, status, headers, config) {
-            if ('200' == status) {
-                alert('LoggedIn');
-            }
-            else {
-                alert('LoggedOut');
-            }
-        }
-        ,function (data, status, headers, config) {
+    scope.CheckLogin = function () {
+        user.getStatus(function() {
+            alert('LoggedIn');
+        }, function() {
             alert('LoggedOut');
-        }
-        , $cookieStore, $http, scope);
+        });
     };
     scope.getUserName = function () {
         if (undefined == $cookieStore.get('user'))
             return '';
-        return $cookieStore.get('user').username;
+        return $cookieStore.get('user');
     };
     scope.logout = function () {
-        User.isLogged = false;
-        User.username = '';
         scope.username = '';
         scope.password = '';
+        scope.IsLogged = false;
+        scope.IsSignInVisible = false;
         $cookieStore.remove('user');
+    };
+    scope.signup = function () {
+        $location.path('/signup');
     };
 }]);
 sharingApp.directive('focusMe', function ($timeout, $parse) {
@@ -81,26 +76,6 @@ sharingApp.directive('focusMe', function ($timeout, $parse) {
     };
 });
 
-function AjaxCall(config, successCallback, errorCallback, $cookieStore, $http, scope) {
-    if (config['url'].indexOf('login') == -1) {
-        if (undefined != $cookieStore.get('user')) {
-            var x = btoa($cookieStore.get('user').username);
-            var config1 = { method: 'POST', url: '/api/home/login', data: { userName: $cookieStore.get('user').username, password: '' }, withCredentials: true, headers: { 'Content-Type': 'application/x-www-form-urlencoded, application/xml, application/json', 'Authorization': 'Basic ' + x, 'accept': "application/json" } };
-            $http(config1)
-                .success(function(data, status, headers, config1) {
-                    if ('200' == status) {
-                        $http(config).success(successCallback).error(errorCallback);
-                    } else {
-                        scope.logout();
-                        return;
-                    }
-                })
-                .error(function(data, status, headers, config1) {
-                    scope.logout();
-                    return;
-                });
-        }
-    }
-    else
-        $http(config).success(successCallback).error(errorCallback);
+function AjaxCall(config, successCallback, errorCallback, $http) {
+    $http(config).success(successCallback).error(errorCallback);
 }

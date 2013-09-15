@@ -44,7 +44,7 @@ namespace PhotoSharingApp.Controllers
                 }
                 else
                 {
-                    response = request.CreateResponse(HttpStatusCode.Unauthorized);
+                    response = request.CreateResponse(HttpStatusCode.Gone);
                 }
             }
             else

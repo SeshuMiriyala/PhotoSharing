@@ -15,7 +15,7 @@ namespace PhotoSharingApp.Models.Security
             var policy = new CacheItemPolicy
             {
                 Priority = CacheItemPriority.Default,
-                SlidingExpiration = new TimeSpan(0, 0, 5)
+                SlidingExpiration = new TimeSpan(0, 5, 0)
                 //RemovedCallback = MyCachedItemRemovedCallback
             };
 
