@@ -1,6 +1,6 @@
-﻿var sharingApp = angular.module("sharingApp", ["ngResource", "ngCookies"], function ($httpProvider, $locationProvider, $routeProvider) {
+﻿var sharingApp = angular.module("sharingApp", ["ngResource", "ngCookies"], function ($httpProvider) {
 
-    $httpProvider.defaults.transformRequest = function (data, headersGetter) {
+    $httpProvider.defaults.transformRequest = function (data) {
         return btoa(JSON.stringify(data));
     };
 
@@ -23,10 +23,10 @@ sharingApp.service('UserService', function ($cookieStore, $http) {
                 var x = btoa($cookieStore.get('user'));
                 var config1 = { method: 'POST', url: '/api/home/login', data: { userName: $cookieStore.get('user'), password: '' }, withCredentials: true, headers: { 'Content-Type': 'application/x-www-form-urlencoded, application/xml, application/json', 'Authorization': 'Basic ' + x, 'accept': "application/json" } };
                 $http(config1)
-                    .success(function(data, status, headers, config1) {
+                    .success(function(data) {
                         successCallback(data);
                     })
-                    .error(function(data, status, headers, config1) {
+                    .error(function(data) {
                         errorCallback(data);
                     });
             }

@@ -15,11 +15,11 @@
     <title>Photo Sharing App</title>
 </head>
 <body>
-    <div class="container">
-        <div class="navbar" data-ng-init="init()" ng-controller="loginCtrl">
+    <div class="container" data-ng-init="init()" ng-controller="loginCtrl">
+        <div class="navbar">
             <div class="navbar-inner">
                 <div class="container-fluid">
-                    <a class="brand" name="top">Coding Bugs</a>
+                    <a class="brand">Coding Bugs</a>
                     <div class="nav-collapse">
                         <ul class="nav">
                             <li class="active"><a href=""><i class="icon-home"></i>Home</a></li>
@@ -34,28 +34,31 @@
                             <li class="divider-vertical"></li>
                         </ul>
                         <ul class="nav pull-right" ng-show="!IsLogged">
-                            <li><a href="" ng-click="signup()">Sign Up</a></li>
+                            <li><a href="" ng-click="signup()"><i class="icon-pencil"></i>Sign Up</a></li>
                             <li class="divider-vertical"></li>
                             <li ng-class="{'dropdown open' : IsSignInVisible == true, 'dropdown' : IsSignInVisible == false}">
-                                <a class="dropdown-toggle" href="" ng-click="toggleSignIn()"><i class="icon-signin"></i>Sign In <strong class="caret"></strong></a>
-                                <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-                                    <form accept-charset="UTF-8">
-                                        <input style="margin-bottom: 15px;" type="text" placeholder="Username" id="username" name="username" ng-model="username" focus-me="IsSignInVisible" required />
-                                        <input style="margin-bottom: 15px;" type="password" placeholder="Password" id="password" name="password" ng-model="password" required />
-                                        <!--<input style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" id="remember-me" value="1">
-			                    <label class="string optional" for="user_remember_me"> Remember me</label>-->
-                                        <input class="btn btn-primary btn-block" type="submit" id="sign-in" value="Sign In" ng-click="login()" />
-                                        <!--<label style="text-align:center;margin-top:5px">or</label>
-			                    <input class="btn btn-primary btn-block" type="button" id="sign-in-google" value="Sign In with Google">
-			                    <input class="btn btn-primary btn-block" type="button" id="sign-in-twitter" value="Sign In with Twitter">-->
-                                    </form>
+                                <a class="dropdown-toggle" href="" ng-click="toggleSignIn()"><i class="icon-glass"></i>Sign In <strong class="caret"></strong></a>
+                                <div class="dropdown-menu">
+                                    <a href="" ng-click="IsSignInVisible = false"><i class="close-icon">X</i></a>
+                                    <div style="padding: 15px; padding-bottom: 0;">
+                                        <form accept-charset="UTF-8">
+                                            <input style="margin-bottom: 15px;" type="text" placeholder="Username" id="username" name="username" ng-model="username" focus-me="IsSignInVisible" required />
+                                            <input style="margin-bottom: 15px;" type="password" placeholder="Password" id="password" name="password" ng-model="password" required />
+                                            <!--<input style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" id="remember-me" value="1">
+                                                <label class="string optional" for="user_remember_me"> Remember me</label>-->
+                                            <input class="btn btn-primary btn-block" type="submit" id="sign-in" value="Sign In" ng-click="login()" />
+                                            <!--<label style="text-align:center;margin-top:5px">or</label>
+                                                <input class="btn btn-primary btn-block" type="button" id="sign-in-google" value="Sign In with Google">
+                                                <input class="btn btn-primary btn-block" type="button" id="sign-in-twitter" value="Sign In with Twitter">-->
+                                        </form>
+                                    </div>
                                 </div>
                             </li>
                         </ul>
                         <ul class="nav pull-right" ng-show="IsLogged">
                             <li><a><i class="icon-user"></i>Welcome <span>{{getUserName()}}</span>!</a></li>
                             <li class="divider-vertical"></li>
-                            <li><a href="" ng-click="logout()"><i class="icon-signout"></i>Logout</a></li>
+                            <li><a href="" ng-click="logout()"><i class="icon-signout"></i>Sign Out</a></li>
                         </ul>
                     </div>
                     <!--/.nav-collapse -->

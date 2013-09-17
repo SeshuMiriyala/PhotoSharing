@@ -1,4 +1,4 @@
-﻿var loginCtrl = sharingApp.controller('loginCtrl', ['$scope', '$http', '$location', 'UserService', '$cookieStore', function (scope, $http, $location, user, $cookieStore) {
+﻿sharingApp.controller('loginCtrl', ['$scope', '$http', '$location', 'UserService', '$cookieStore', function (scope, $http, $location, user, $cookieStore) {
     scope.toggleSignIn = function() {
         scope.IsSignInVisible = !scope.IsSignInVisible;
     };
@@ -6,7 +6,7 @@
         var x = btoa(scope.username + ':' + scope.password);
         var config = { method: 'POST', url: '/api/home/login', data: { userName: scope.username, password: scope.password }, withCredentials: true, headers: { 'Content-Type': 'application/x-www-form-urlencoded, application/xml, application/json', 'Authorization': 'Basic ' + x, 'accept': "application/json" } };
         AjaxCall(config
-        ,function (data, status, headers) {
+        ,function (data) {
             // succefull login
             var result = atob(data);
             if ("0" == result) {
@@ -23,7 +23,7 @@
                 scope.logout();
             }
         }
-        , function (data, status, headers) {
+        , function () {
             scope.IsLogged = false;
             $cookieStore.remove('user');
         }
@@ -49,7 +49,7 @@
                 scope.IsLogged = false;
                 return false;
             }
-        }, function(data) {
+        }, function() {
             scope.username = '';
             scope.password = '';
             $cookieStore.remove('user');

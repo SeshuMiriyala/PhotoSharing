@@ -7,8 +7,8 @@
                 </td>
                 <td>
                     <input type="text" placeholder="Username" id="username" name="username" focus-me="true" ng-model="user.username" style="height: 30px; width: 300px;" unique-username required/>
-                    <span class="has-error" ng-show="signupForm.username.$error.required">Required</span>
-                    <span class="has-error" ng-show="!signupForm.username.$valid">Username already exists</span>
+                    <span class="has-error" ng-show="signupForm.username.$error.required"><i class="icon-warning-sign" style="margin-right: 3px;"></i>Required</span>
+                    <span class="has-error" ng-hide="isUsernameValid"><i class="icon-warning-sign" style="margin-right: 3px;"></i>{{usernameInvalidMsg}}</span>
                 </td>
             </tr>
             <tr>
@@ -17,7 +17,7 @@
                 </td>
                 <td>
                     <input placeholder="Password" id="password" name="password" type="password" ng-model="user.password" style="height: 30px; width: 300px;" required/>
-                    <span class="has-error" ng-show="signupForm.password.$error.required">Required</span>
+                    <span class="has-error" ng-show="signupForm.password.$error.required"><i class="icon-warning-sign" style="margin-right: 3px;"></i>Required</span>
                 </td>
             </tr>
             <tr>
@@ -26,7 +26,8 @@
                 </td>
                 <td>
                     <input id="confirmPassword" placeholder="Confirm Password" name="confirmPassword" type="password" ng-model="user.confirmPassword" style="height: 30px; width: 300px;" required />
-                    <span class="has-error" ng-show="signupForm.confirmPassword.$error.required">Required</span>
+                    <span class="has-error" ng-show="signupForm.confirmPassword.$error.required"><i class="icon-warning-sign" style="margin-right: 3px;"></i>Required</span>
+                    <span class="has-error" ng-hide="isPasswordValid"><i class="icon-warning-sign" style="margin-right: 3px;"></i>Passwords donot match</span>
 
                 </td>
             </tr>
@@ -36,9 +37,9 @@
                 </td>
                 <td>
                     <input type="email" id="email" placeholder="abcd@xyz.com" name="email" ng-model="user.email" style="height: 30px; width: 300px;" unique-email required/>
-                    <span class="has-error" ng-show="signupForm.email.$error.required">Required</span>
-                    <span class="has-error" ng-show="signupForm.email.$error.email">Invalid email</span>
-                    <span class="has-error" ng-show="!signupForm.email.$valid">Email already exists</span>
+                    <span class="has-error" ng-show="signupForm.email.$error.required"><i class="icon-warning-sign" style="margin-right: 3px;"></i>Required</span>
+                    <span class="has-error" ng-show="signupForm.email.$error.email"><i class="icon-warning-sign" style="margin-right: 3px;"></i>Invalid email</span>
+                    <span class="has-error" ng-hide="isEmailValid"><i class="icon-warning-sign" style="margin-right: 3px;"></i>{{emailInvalidMsg}}</span>
                 </td>
             </tr>
             <tr>
@@ -47,10 +48,10 @@
                 </td>
                 <td>
                     <input type="text" placeholder="First Name" id="fName" name="fName" ng-model="user.firstName" style="height: 30px; width: 300px;" required/>
-                    <span class="has-error" ng-show="signupForm.fName.$error.required">Required</span><br/>
+                    <span class="has-error" ng-show="signupForm.fName.$error.required"><i class="icon-warning-sign" style="margin-right: 3px;"></i>Required</span><br/>
                     <input type="text" placeholder="Middle Name" id="mName" name="mName" ng-model="user.middleName" style="height: 30px; width: 300px;"/><br/>
                     <input type="text" placeholder="Last Name" id="lName" name="lName" ng-model="user.lastName" style="height: 30px; width: 300px;" required/>
-                    <span class="has-error" ng-show="signupForm.lName.$error.required">Required</span>
+                    <span class="has-error" ng-show="signupForm.lName.$error.required"><i class="icon-warning-sign" style="margin-right: 3px;"></i>Required</span>
                 </td>
             </tr>
             <tr>
