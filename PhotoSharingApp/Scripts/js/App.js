@@ -1,4 +1,4 @@
-﻿var sharingApp = angular.module("sharingApp", ["ngResource", "ngCookies"], function ($httpProvider) {
+﻿var sharingApp = angular.module("sharingApp", ["ngResource", "ngCookies"], function ($httpProvider, $locationProvider) {
 
     $httpProvider.defaults.transformRequest = function (data) {
         return btoa(JSON.stringify(data));

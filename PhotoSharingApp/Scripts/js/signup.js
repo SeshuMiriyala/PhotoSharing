@@ -22,6 +22,10 @@
     scope.isEmailValid = true;
     scope.emailInvalidMsg = '';
     scope.isPasswordValid = true;
+    scope.home = function () {
+        $location.path('/');
+    };
+    
 }]);
 sharingApp.directive('uniqueEmail', ['$http', function ($http) {
     return {

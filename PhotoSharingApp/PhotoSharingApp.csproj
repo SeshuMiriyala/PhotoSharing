@@ -157,12 +157,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\KeyValueObject.cs" />
+    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\ModelBinders\LoginModelBinder.cs" />
+    <Compile Include="Models\ModelBinders\ModelBinder.cs" />
     <Compile Include="Models\Security\AccessToken.cs" />
     <Compile Include="Models\Security\AccessTokenFactory.cs" />
     <Compile Include="Models\Security\AccessTokenManager.cs" />
     <Compile Include="Models\Contexts\Context.cs" />
     <Compile Include="Models\Contexts\HomeContext.cs" />
     <Compile Include="Models\Security\AccessTokenRepository.cs" />
+    <Compile Include="Models\SignUpParams.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

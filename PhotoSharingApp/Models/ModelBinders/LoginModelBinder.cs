@@ -1,0 +1,40 @@
+﻿using System;
+using System.Text;
+using System.Web.Http.Controllers;
+using System.Web.Http.ModelBinding;
+using PhotoSharingApp.Controllers;
+
+namespace PhotoSharingApp.Models.ModelBinders
+{
+    internal class LoginModelBinder : IModelBinder
+    {
+        public bool BindModel(HttpActionContext actionContext, ModelBindingContext bindingContext)
+        {
+            if (bindingContext.ModelType != typeof(LoginParams))
+            {
+                return false;
+            }
+
+            var stream = actionContext.Request.Content.ReadAsStringAsync().Result;
+
+            if (stream == null)
+            {
+                bindingContext.ModelState.AddModelError(
+                    bindingContext.ModelName, "Wrong value type");
+                return false;
+            }
+
+            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginParams>(Encoding.Default.GetString(Convert.FromBase64String(stream)));
+
+            if (null != result)
+            {
+                bindingContext.Model = result;
+                return true;
+            }
+
+            bindingContext.ModelState.AddModelError(
+                bindingContext.ModelName, "Cannot extract credentials");
+            return false;
+        }
+    }
+}
