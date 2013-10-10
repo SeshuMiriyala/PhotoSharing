@@ -1,12 +1,13 @@
-﻿using System;
+﻿
+using System;
 using System.Data;
 using System.Data.SqlClient;
 
 namespace PhotoSharingApp.Models.Contexts
 {
-    internal class HomeContext : Context
+    internal class DataServiceContext : Context
     {
-        public bool RegisterUser(string userName, string password, string firstName, string lastName, string middleName, string emailId)
+        public bool IsValidEmail(string email)
         {
             using (var sqlcon = new SqlConnection(ConString))
             {
@@ -16,21 +17,12 @@ namespace PhotoSharingApp.Models.Contexts
                 {
                     var command =
                         new SqlCommand(
-                            "INSERT INTO Users(UserName, Password, FirstName, LastName, MiddleName, FolderPath, LastLoggedIn, EmailId) VALUES" +
-                            "(@username, @password, @firstname, @lastname, @middlename, @folderPath, @loggedin, @emailId)",
-                            sqlcon, transaction);
-                    command.Parameters.AddWithValue("@username", userName);
-                    command.Parameters.AddWithValue("@firstname", firstName);
-                    command.Parameters.AddWithValue("@lastname", lastName);
-                    command.Parameters.AddWithValue("@middlename", string.IsNullOrEmpty(middleName)? (object) DBNull.Value : middleName);
-                    command.Parameters.AddWithValue("@password", password);
-                    command.Parameters.AddWithValue("@emailId", emailId);
-                    command.Parameters.AddWithValue("@folderPath", userName);
-                    command.Parameters.AddWithValue("@loggedin", DateTime.Now);
+                            "SELECT COUNT(*) FROM Users WHERE EmailId = @email", sqlcon, transaction);
+                    command.Parameters.AddWithValue("@email", email);
 
-                    var result = command.ExecuteNonQuery();
+                    var result = Convert.ToInt32(command.ExecuteScalar());
 
-                    if (0 < result)
+                    if (0 == result)
                     {
                         transaction.Commit();
                         sqlcon.Close();
@@ -48,11 +40,11 @@ namespace PhotoSharingApp.Models.Contexts
                         sqlcon.Close();
                     }
                 }
+                return false;
             }
-            return false;
         }
 
-        public bool IsValidUser(string userName, string password)
+        public bool IsValidUserName(string username)
         {
             using (var sqlcon = new SqlConnection(ConString))
             {
@@ -62,13 +54,12 @@ namespace PhotoSharingApp.Models.Contexts
                 {
                     var command =
                         new SqlCommand(
-                            "SELECT COUNT(*) FROM Users WHERE UserName = @username AND Password = @password", sqlcon, transaction);
-                    command.Parameters.AddWithValue("@username", userName);
-                    command.Parameters.AddWithValue("@password", password);
+                            "SELECT COUNT(*) FROM Users WHERE UserName = @username", sqlcon, transaction);
+                    command.Parameters.AddWithValue("@username", username);
 
                     var result = Convert.ToInt32(command.ExecuteScalar());
 
-                    if (1 == result)
+                    if (0 == result)
                     {
                         transaction.Commit();
                         sqlcon.Close();

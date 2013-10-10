@@ -1,4 +1,4 @@
-﻿var sharingApp = angular.module("sharingApp", ["ngResource", "ngCookies"], function ($httpProvider, $locationProvider) {
+﻿var sharingApp = angular.module("sharingApp", ["ngResource", "ngCookies"], function ($httpProvider) {
 
     $httpProvider.defaults.transformRequest = function (data) {
         return btoa(JSON.stringify(data));
@@ -16,32 +16,76 @@
             when('/signup', { controller: 'registerCtrl', templateUrl: 'partials/signup.html' }).
             otherwise({ redirectTo: '/' });
     });
-sharingApp.service('UserService', function ($cookieStore, $http) {
-    return {
-        getStatus: function(successCallback, errorCallback) {
-            if (undefined != $cookieStore.get('user')) {
-                var x = btoa($cookieStore.get('user'));
-                var config1 = { method: 'POST', url: '/api/home/login', data: { userName: $cookieStore.get('user'), password: '' }, withCredentials: true, headers: { 'Content-Type': 'application/x-www-form-urlencoded, application/xml, application/json', 'Authorization': 'Basic ' + x, 'accept': "application/json" } };
-                $http(config1)
-                    .success(function(data) {
-                        successCallback(data);
-                    })
-                    .error(function(data) {
-                        errorCallback(data);
-                    });
+sharingApp.config(['$httpProvider', function($httpProvider) {
+    var httpIntercepter = ['$cookieStore', '$rootScope', '$q', function ($cookieStore, $rootScope, $q) {
+        //return function() {
+        //    if (undefined != $cookieStore.get('user')) {
+        //        var x = btoa($cookieStore.get('user'));
+        //        var config1 = { method: 'POST', url: '/api/home/login', data: { userName: $cookieStore.get('user'), password: '' }, withCredentials: true, headers: { 'Content-Type': 'application/x-www-form-urlencoded, application/xml, application/json', 'Authorization': 'Basic ' + x, 'accept': "application/json" } };
+        //        $http(config1)
+        //            .success(function(data) {
+        //                return data;
+        //            })
+        //            .error(function() {
+        //                $rootScope.$broadcast('event:auth-loginRequired');
+        //                return $q.reject(response);
+        //            });
+        //    }
+        //};
+        function success(response) {
+            return response;
+        }
+
+        function error(response) {
+            if (response.status === 401 && !response.config.ignoreAuthModule) {
+                var deferred = $q.defer();
+                $rootScope.$broadcast('event:auth-loginRequired');
+                return deferred.promise;
             }
-        }  
+            // otherwise, default behaviour
+            return $q.reject(response);
+        }
+
+        return function (promise) {
+            return promise.then(success, error);
+        };
+    }];
+    $httpProvider.responseInterceptors.push(httpIntercepter);
+}]);
+sharingApp.service('authService', ['$rootScope', function($rootScope) {
+    return {
+        loginConfirmed: function () {
+            $rootScope.IsLogged = true;
+            $rootScope.$broadcast('event:auth-loginConfirmed');
+        }
+    };
+}]);
+sharingApp.factory('dataService', ['$http', function($http) {
+    var serviceBase = '/api/dataservice/',
+        dataFactory = {};
+
+    dataFactory.checkUniqueValue = function(property, value) {
+        return $http.get(serviceBase + 'IsValid?property=' +
+            property + '&value=' + escape(value)).then(
+                function(results) {
+                    return atob(results.data);
+                });
+    };
+    return dataFactory;
+}]);
+
+sharingApp.directive('sharingContent', function () {
+    return {
+        //scope: true,   // optionally create a child scope
+        link: function (scope, element) {
+            var login = element.find('#login-holder');
+            scope.$on('event:auth-loginRequired', function () {
+                login.slideDown('slow', function () {
+                });
+            });
+            scope.$on('event:auth-loginConfirmed', function () {
+                login.slideUp();
+            });
+        }
     };
 });
-sharingApp.service('sharedProperties', function () {
-        var isLogged = false;
-
-        return {
-            GetIsLogged: function () {
-                return isLogged;
-            },
-            SetIsLogged: function (value) {
-                isLogged = value;
-            }
-        };
-    });

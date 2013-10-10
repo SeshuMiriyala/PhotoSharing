@@ -20,7 +20,7 @@ namespace PhotoSharingApp.Models
     /// <summary>
     /// Class SignUpParams.
     /// </summary>
-    [ModelBinder(typeof(ModelBinder<LoginParams>))]
+    [ModelBinder(typeof(ModelBinder<SignUpParams>))]
     public class SignUpParams
     {
         /// <summary>

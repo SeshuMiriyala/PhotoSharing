@@ -1,89 +1,96 @@
-﻿sharingApp.controller('loginCtrl', ['$scope', '$http', '$location', 'UserService', '$cookieStore', function (scope, $http, $location, user, $cookieStore) {
+﻿sharingApp.controller('loginCtrl', ['$scope', '$http', '$location', '$cookieStore', 'authService', '$rootScope', '$q', function (scope, $http, $location, $cookieStore, authService, $rootScope, $q) {
     scope.toggleSignIn = function() {
         scope.IsSignInVisible = !scope.IsSignInVisible;
     };
-    scope.login = function () {
-        var x = btoa(scope.username + ':' + scope.password);
-        var config = { method: 'POST', url: '/api/home/login', data: { userName: scope.username, password: scope.password }, withCredentials: true, headers: { 'Content-Type': 'application/x-www-form-urlencoded, application/xml, application/json', 'Authorization': 'Basic ' + x, 'accept': "application/json" } };
-        AjaxCall(config
-        ,function (data) {
-            // succefull login
-            var result = atob(data);
-            if ("0" == result) {
-                var username = scope.username;
-                scope.IsLogged = true;
-                $cookieStore.put('user', username);
-            }
-            else if ("1" == result) {
-                alert('Session expired.');
-                scope.logout();
-            }
-            else if ("2" == result) {
-                alert("Login failed.");
-                scope.logout();
-            }
-        }
-        , function () {
-            scope.IsLogged = false;
+    scope.login = function() {
+        if (undefined != $cookieStore.get('user'))
             $cookieStore.remove('user');
-        }
-        , $http);
+        var config = { method: 'POST', url: '/api/home/login', data: { userName: scope.username, password: scope.password }, withCredentials: true, headers: { 'Content-Type': 'application/x-www-form-urlencoded, application/xml, application/json', 'Authorization': 'Basic ', 'accept': "application/json" } };
+        AjaxCall(config,
+            function (data) {
+                var result = atob(data);
+                if ("0" == result) {
+                    $cookieStore.put('user', scope.username);
+                    authService.loginConfirmed();
+                } else if ("1" == result) {
+                    $rootScope.$broadcast('event:auth-loginRequired');
+                    return $q.reject(data);
+                }
+            }
+            ,function() {
+                $rootScope.$broadcast('event:auth-loginRequired');
+                return $q.reject(response);
+            }, $http);
     };
     scope.IsSignInVisible = false;
-    
-    scope.init = function () {
-        scope.IsUserLoggedIn();
-    };
+    $rootScope.IsLogged = false;
+    //scope.init = function () {
+    //    scope.IsUserLoggedIn();
+    //};
 
-    scope.IsUserLoggedIn = function () {
-        user.getStatus(function (data) {
-            var result = atob(data);
-            if ("0" == result) {
-                scope.IsLogged = true;
-                return true;
-            }
-            else {
-                scope.username = '';
-                scope.password = '';
-                $cookieStore.remove('user');
-                scope.IsLogged = false;
-                return false;
-            }
-        }, function() {
-            scope.username = '';
-            scope.password = '';
-            $cookieStore.remove('user');
-            scope.IsLogged = false;
-            return false;
-        });
-    };
-    scope.CheckLogin = function () {
-        user.getStatus(function(data) {
-            var result = atob(data);
-            if ("0" == result) {
-                alert("Logged In");
-            }
-            else if ("1" == result) {
-                alert('Session expired.');
-            }
-            else if ("2" == result) {
-                alert("Login failed.");
-            }
-        }, function() {
-            alert('LoggedOut');
-        });
-    };
+    //scope.IsUserLoggedIn = function () {
+    //    user.getStatus(function (data) {
+    //        var result = atob(data);
+    //        if ("0" == result) {
+    //            scope.IsLogged = true;
+    //            return true;
+    //        }
+    //        else {
+    //            scope.username = '';
+    //            scope.password = '';
+    //            $cookieStore.remove('user');
+    //            scope.IsLogged = false;
+    //            return false;
+    //        }
+    //    }, function() {
+    //        scope.username = '';
+    //        scope.password = '';
+    //        $cookieStore.remove('user');
+    //        scope.IsLogged = false;
+    //        return false;
+    //    });
+    //};
+    //scope.CheckLogin = function () {
+    //    user.getStatus(function(data) {
+    //        var result = atob(data);
+    //        if ("0" == result) {
+    //            alert("Logged In");
+    //        }
+    //        else if ("1" == result) {
+    //            alert('Session expired.');
+    //        }
+    //        else if ("2" == result) {
+    //            alert("Login failed.");
+    //        }
+    //    }, function() {
+    //        alert('LoggedOut');
+    //    });
+    //};
     scope.getUserName = function () {
         if (undefined == $cookieStore.get('user'))
             return '';
         return $cookieStore.get('user');
     };
+    scope.reset = function() {
+        var login = $('#login-holder');
+        login.slideUp();
+    };
     scope.logout = function () {
         scope.username = '';
         scope.password = '';
-        scope.IsLogged = false;
+        $rootScope.IsLogged = false;
         scope.IsSignInVisible = false;
-        $cookieStore.remove('user');
+        if (undefined != $cookieStore.get('user')) {
+            var config = { method: 'POST', url: '/api/home/logout', data: { userName: $cookieStore.get('user'), password: '' }, withCredentials: true, headers: { 'Content-Type': 'application/x-www-form-urlencoded, application/xml, application/json', 'Authorization': 'Basic ', 'accept': "application/json" } };
+            AjaxCall(config,
+                function(data) {
+                    $rootScope.$broadcast('event:auth-loginRequired');
+                },function() {
+                    $rootScope.$broadcast('event:auth-loginRequired');
+                    return $q.reject(response);
+                }, $http);
+            $cookieStore.remove('user');
+        }
     };
     scope.signup = function () {
         $location.path('/signup');

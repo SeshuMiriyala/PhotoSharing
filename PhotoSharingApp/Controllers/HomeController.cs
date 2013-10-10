@@ -58,9 +58,9 @@ namespace PhotoSharingApp.Controllers
                     else
                     {
                         response = Request.CreateResponse(HttpStatusCode.OK);
-                        response.Content = String.IsNullOrEmpty(loginModel.Password)
-                                               ? new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("1")))
-                                               : new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("2")));
+                        response.Content = new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("1")));// String.IsNullOrEmpty(loginModel.Password)
+                                                //? new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("1")))
+                                                //: new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("2")));
                     }
                 }
                 else
@@ -68,6 +68,29 @@ namespace PhotoSharingApp.Controllers
                     response = Request.CreateResponse(HttpStatusCode.OK);
                     response.Content = new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("0")));
                 }
+            }
+            else
+            {
+                response = Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+            return response;
+        }
+
+        /// <summary>
+        /// Verifies the Login parameters nd generates a session Id.
+        /// </summary>
+        /// <param name="loginModel">Login model</param>
+        /// <returns>HttpResponseMessage.</returns>
+        [AcceptVerbs("POST")]
+        [ActionName("Logout")]
+        [HttpPost]
+        public HttpResponseMessage Logout(LoginParams loginModel)
+        {
+            HttpResponseMessage response;
+            if (ModelState.IsValid)
+            {
+                AccessTokenRepository.RemoveToken(loginModel.UserName);
+                response = Request.CreateResponse(HttpStatusCode.OK);
             }
             else
             {
@@ -98,34 +121,34 @@ namespace PhotoSharingApp.Controllers
             return response;
         }
 
-        /// <summary>
-        /// Determines whether email is valid.
-        /// </summary>
-        /// <param name="email">Email Object</param>
-        /// <returns>HttpResponseMessage.</returns>
-        [AcceptVerbs("POST")]
-        [ActionName("IsValidEmail")]
-        [HttpPost]
-        public HttpResponseMessage IsValidEmail(KeyValueObject email)
-        {
-            var response = Request.CreateResponse(HttpStatusCode.OK);
-            response.Content = _db.IsValidEmail(email.Key) ? new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("0"))) : new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("1")));
-            return response;
-        }
+        ///// <summary>
+        ///// Determines whether email is valid.
+        ///// </summary>
+        ///// <param name="email">Email Object</param>
+        ///// <returns>HttpResponseMessage.</returns>
+        //[AcceptVerbs("POST")]
+        //[ActionName("IsValidEmail")]
+        //[HttpPost]
+        //public HttpResponseMessage IsValidEmail(KeyValueObject email)
+        //{
+        //    var response = Request.CreateResponse(HttpStatusCode.OK);
+        //    response.Content = _db.IsValidEmail(email.Key) ? new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("0"))) : new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("1")));
+        //    return response;
+        //}
 
-        /// <summary>
-        /// Determines whether user name is valid.
-        /// </summary>
-        /// <param name="userName">UserName object</param>
-        /// <returns>HttpResponseMessage.</returns>
-        [AcceptVerbs("POST")]
-        [ActionName("IsValidUserName")]
-        [HttpPost]
-        public HttpResponseMessage IsValidUserName(KeyValueObject userName)
-        {
-            var response = Request.CreateResponse(HttpStatusCode.OK);
-            response.Content = _db.IsValidUserName(userName.Key) ? new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("0"))) : new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("1")));
-            return response;
-        }
+        ///// <summary>
+        ///// Determines whether user name is valid.
+        ///// </summary>
+        ///// <param name="userName">UserName object</param>
+        ///// <returns>HttpResponseMessage.</returns>
+        //[AcceptVerbs("POST")]
+        //[ActionName("IsValidUserName")]
+        //[HttpPost]
+        //public HttpResponseMessage IsValidUserName(KeyValueObject userName)
+        //{
+        //    var response = Request.CreateResponse(HttpStatusCode.OK);
+        //    response.Content = _db.IsValidUserName(userName.Key) ? new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("0"))) : new StringContent(Convert.ToBase64String(Encoding.Default.GetBytes("1")));
+        //    return response;
+        //}
     }
 }

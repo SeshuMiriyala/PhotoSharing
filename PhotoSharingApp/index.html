@@ -14,8 +14,8 @@
     <meta name="fragment" content="!" />
     <title>Photo Sharing App</title>
 </head>
-<body>
-    <div class="container" data-ng-init="init()" ng-controller="loginCtrl">
+<body sharing-content>
+    <div class="container" ng-controller="loginCtrl">
         <div class="navbar">
             <div class="navbar-inner">
                 <div class="container-fluid">
@@ -30,7 +30,7 @@
                             <li class="divider-vertical"></li>
                             <li><a href=""><i class="icon-signal"></i>Stats</a></li>
                             <li class="divider-vertical"></li>
-                            <li><a href="" ng-click="CheckLogin()"><i class="icon-lock"></i>Permissions</a></li>
+                            <li><a href=""><i class="icon-lock"></i>Permissions</a></li>
                             <li class="divider-vertical"></li>
                         </ul>
                         <ul class="nav pull-right" ng-show="!IsLogged">
@@ -67,6 +67,29 @@
             </div>
             <!--/.navbar-inner -->
         </div>
+        <div id="login-holder" style="display: none;">
+        <div id="loginbox">
+          <div id="login-inner" ng:controller="loginCtrl">
+            <form ng-submit="submit()">
+              <table border="0" cellpadding="0" cellspacing="0">
+                <tbody><tr>
+                           <td>Username</td>
+                           <td><input placeholder="Username" type="text" class="login-inp ng-pristine ng-valid" ng-model="username" /></td>
+                </tr>
+                <tr>
+                  <td>Password</td>
+                    <td><input placeholder="Password" type="password" class="login-inp ng-pristine ng-valid" ng-model="password" /></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" class="btn btn-primary btn-block" ng-click="login()" /></td>
+                    <td><input type="reset" class="btn btn-primary btn-danger" ng-click="reset()" /></td>
+                </tr>
+              </tbody></table>
+            </form>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
         <div ng-view></div>
     </div>
 </body>

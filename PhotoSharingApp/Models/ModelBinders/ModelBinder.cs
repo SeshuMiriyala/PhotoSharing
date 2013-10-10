@@ -23,7 +23,7 @@ namespace PhotoSharingApp.Models.ModelBinders
                 return false;
             }
 
-            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginParams>(Encoding.Default.GetString(Convert.FromBase64String(stream)));
+            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(Encoding.Default.GetString(Convert.FromBase64String(stream)));
 
             if (null != result)
             {

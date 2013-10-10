@@ -6,7 +6,7 @@
                     <label id="lblUsername" for="username">Username: </label>
                 </td>
                 <td>
-                    <input type="text" placeholder="Username" id="username" name="username" focus-me="true" ng-model="user.username" style="height: 30px; width: 300px;" unique-username required/>
+                    <input type="text" placeholder="Username" id="username" name="username" focus-me="true" ng-model="user.username" style="height: 30px; width: 300px;" data-wc-unique="{property: 'Username'}" required/>
                     <span class="has-error" ng-show="signupForm.username.$error.required"><i class="icon-warning-sign" style="margin-right: 3px;"></i>Required</span>
                     <span class="has-error" ng-hide="isUsernameValid"><i class="icon-warning-sign" style="margin-right: 3px;"></i>{{usernameInvalidMsg}}</span>
                 </td>
@@ -36,7 +36,7 @@
                     <label id="lblEmail" for="email">Email: </label>
                 </td>
                 <td>
-                    <input type="email" id="email" placeholder="abcd@xyz.com" name="email" ng-model="user.email" style="height: 30px; width: 300px;" unique-email required/>
+                    <input type="email" id="email" placeholder="abcd@xyz.com" name="email" ng-model="user.email" style="height: 30px; width: 300px;" data-wc-unique="{property: 'Email'}" required/>
                     <span class="has-error" ng-show="signupForm.email.$error.required"><i class="icon-warning-sign" style="margin-right: 3px;"></i>Required</span>
                     <span class="has-error" ng-show="signupForm.email.$error.email"><i class="icon-warning-sign" style="margin-right: 3px;"></i>Invalid email</span>
                     <span class="has-error" ng-hide="isEmailValid"><i class="icon-warning-sign" style="margin-right: 3px;"></i>{{emailInvalidMsg}}</span>
