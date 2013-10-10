@@ -1,21 +1,23 @@
 ﻿<!DOCTYPE html>
 <html ng-app="sharingApp" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <script src="Scripts/jquery-1.9.1.js"></script>
-    <script src="Scripts/angular.js"></script>
-    <script src="Scripts/angular-resource.js"></script>
-    <script src="Scripts/js/App.js"></script>
-    <script src="Scripts/js/Home.js"></script>
-    <script src="Scripts/js/signup.js"></script>
-    <script src="Scripts/angular-cookies.js"></script>
-    <link rel="stylesheet" type="text/css" href="Content/bootstrap/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="Content/bootstrap/bootstrap-combined.css" />
-    <link rel="stylesheet" type="text/css" href="Content/App.css" />
-    <meta name="fragment" content="!" />
-    <title>Photo Sharing App</title>
-</head>
+    <head>
+        <script src="Scripts/jquery-1.9.1.js"></script>
+        <script src="Scripts/angular.js"></script>
+        <script src="Scripts/angular-resource.js"></script>
+        <script src="Scripts/js/App.js"></script>
+        <script src="Scripts/js/Home.js"></script>
+        <script src="Scripts/js/signup.js"></script>
+        <script src="Scripts/angular-cookies.js"></script>
+        <script src='https://cdn.firebase.com/v0/firebase.js'></script>
+        <script type="text/javascript" src="Scripts/angularfire.js"></script>
+        <link rel="stylesheet" type="text/css" href="Content/bootstrap/bootstrap.css" />
+        <link rel="stylesheet" type="text/css" href="Content/bootstrap/bootstrap-combined.css" />
+        <link rel="stylesheet" type="text/css" href="Content/App.css" />
+        <meta name="fragment" content="!" />
+        <title>Photo Sharing App</title>
+    </head>
 <body sharing-content>
-    <div class="container" ng-controller="loginCtrl">
+    <div class="container"   ng-controller="loginCtrl">
         <div class="navbar">
             <div class="navbar-inner">
                 <div class="container-fluid">

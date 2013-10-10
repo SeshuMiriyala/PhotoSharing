@@ -22,8 +22,8 @@
                 return $q.reject(response);
             }, $http);
     };
+    $rootScope.IsLogged = (undefined != $cookieStore.get('user'));
     scope.IsSignInVisible = false;
-    $rootScope.IsLogged = false;
     //scope.init = function () {
     //    scope.IsUserLoggedIn();
     //};
@@ -115,3 +115,24 @@ sharingApp.directive('focusMe', function ($timeout, $parse) {
 function AjaxCall(config, successCallback, errorCallback, $http) {
     $http(config).success(successCallback).error(errorCallback);
 }
+
+sharingApp.controller('homeCtrl', ['$scope', '$cookieStore', '$rootScope', 'angularFire', function ($scope, $cookieStore, $rootScope, angularFire) {
+    var url = 'https://photosharingapp.firebaseio.com/posts';
+    $scope.posts = [];
+    var myDataRef = new Firebase('https://photosharingapp.firebaseio.com/posts');
+    angularFire(myDataRef, $scope, "posts").then(function () {
+        $scope.postMsg = function () {
+            if (undefined == $cookieStore.get('user'))
+                $rootScope.$broadcast('event:auth-loginRequired');
+            else {
+                $scope.newPost.username = $cookieStore.get('user');
+                $scope.posts.push({ username: $scope.newPost.username, message: $scope.newPost.message });
+                $scope.newPost.message = '';
+            }
+        };
+        //myDataRef.on('child_added', function (snapshot) {
+        //    var post = snapshot.val();
+        //    posts.push(post);
+        //});
+    });
+}]);

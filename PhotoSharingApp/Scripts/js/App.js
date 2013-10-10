@@ -1,4 +1,4 @@
-﻿var sharingApp = angular.module("sharingApp", ["ngResource", "ngCookies"], function ($httpProvider) {
+﻿var sharingApp = angular.module("sharingApp", ["ngResource", "ngCookies", "firebase"], function ($httpProvider) {
 
     $httpProvider.defaults.transformRequest = function (data) {
         return btoa(JSON.stringify(data));
@@ -74,12 +74,13 @@ sharingApp.factory('dataService', ['$http', function($http) {
     return dataFactory;
 }]);
 
-sharingApp.directive('sharingContent', function () {
+sharingApp.directive('sharingContent', ['$cookieStore', function ($cookieStore) {
     return {
         //scope: true,   // optionally create a child scope
         link: function (scope, element) {
             var login = element.find('#login-holder');
             scope.$on('event:auth-loginRequired', function () {
+                $cookieStore.remove('user');
                 login.slideDown('slow', function () {
                 });
             });
@@ -88,4 +89,4 @@ sharingApp.directive('sharingContent', function () {
             });
         }
     };
-});
+}]);
