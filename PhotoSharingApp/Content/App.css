@@ -32,8 +32,8 @@ i.close-icon {
     z-index: 1000;
     height: 100%;
     background-color: rgba(211,211,211,0.5);
-    top: 0;
-    right: 0;
+    top: -100px;
+    right: -100px;
     position: absolute;
 }
 #login-inner td {
