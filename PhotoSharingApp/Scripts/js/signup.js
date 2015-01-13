@@ -1,7 +1,7 @@
 ﻿sharingApp.controller('registerCtrl', ['$scope', '$http', '$location', '$cookieStore', function (scope, $http, $location, $cookieStore) {
     scope.register = function () {
         if (scope.user.password == scope.user.confirmPassword) {
-            var config = { method: 'POST', url: '/api/home/register', data: { userName: scope.user.username, password: scope.user.password, email: scope.user.email, firstName: scope.user.firstName, middleName: scope.user.middleName, lastName: scope.user.lastName }, withCredentials: true, headers: { 'Content-Type': 'application/x-www-form-urlencoded, application/xml, application/json', 'Authorization': 'Basic ', 'accept': "application/json" } };
+            var config = { method: 'POST', url: '/ChartApp/api/home/register', data: { userName: scope.user.username, password: scope.user.password, email: scope.user.email, firstName: scope.user.firstName, middleName: scope.user.middleName, lastName: scope.user.lastName }, withCredentials: true, headers: { 'Content-Type': 'application/x-www-form-urlencoded, application/xml, application/json', 'Authorization': 'Basic ', 'accept': "application/json" } };
             AjaxCall(config
             , function () {
                 // succefull login

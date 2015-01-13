@@ -61,7 +61,7 @@ sharingApp.service('authService', ['$rootScope', function($rootScope) {
     };
 }]);
 sharingApp.factory('dataService', ['$http', function($http) {
-    var serviceBase = '/api/dataservice/',
+    var serviceBase = '/ChartApp/api/dataservice/',
         dataFactory = {};
 
     dataFactory.checkUniqueValue = function(property, value) {

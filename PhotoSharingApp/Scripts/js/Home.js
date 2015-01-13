@@ -5,7 +5,7 @@
     scope.login = function() {
         if (undefined != $cookieStore.get('user'))
             $cookieStore.remove('user');
-        var config = { method: 'POST', url: '/api/home/login', data: { userName: scope.username, password: scope.password }, withCredentials: true, headers: { 'Content-Type': 'application/x-www-form-urlencoded, application/xml, application/json', 'Authorization': 'Basic ', 'accept': "application/json" } };
+        var config = { method: 'POST', url: '/ChartApp/api/home/login', data: { userName: scope.username, password: scope.password }, withCredentials: true, headers: { 'Content-Type': 'application/x-www-form-urlencoded, application/xml, application/json', 'Authorization': 'Basic ', 'accept': "application/json" } };
         AjaxCall(config,
             function (data) {
                 var result = atob(data);
@@ -16,6 +16,7 @@
                     $rootScope.$broadcast('event:auth-loginRequired');
                     return $q.reject(data);
                 }
+                return $q.reject(data);
             }
             ,function() {
                 $rootScope.$broadcast('event:auth-loginRequired');
@@ -81,9 +82,9 @@
         $rootScope.IsLogged = false;
         scope.IsSignInVisible = false;
         if (undefined != $cookieStore.get('user')) {
-            var config = { method: 'POST', url: '/api/home/logout', data: { userName: $cookieStore.get('user'), password: '' }, withCredentials: true, headers: { 'Content-Type': 'application/x-www-form-urlencoded, application/xml, application/json', 'Authorization': 'Basic ', 'accept': "application/json" } };
+            var config = { method: 'POST', url: '/ChartApp/api/home/logout', data: { userName: $cookieStore.get('user'), password: '' }, withCredentials: true, headers: { 'Content-Type': 'application/x-www-form-urlencoded, application/xml, application/json', 'Authorization': 'Basic ', 'accept': "application/json" } };
             AjaxCall(config,
-                function(data) {
+                function() {
                     $rootScope.$broadcast('event:auth-loginRequired');
                 },function() {
                     $rootScope.$broadcast('event:auth-loginRequired');
@@ -117,7 +118,6 @@ function AjaxCall(config, successCallback, errorCallback, $http) {
 }
 
 sharingApp.controller('homeCtrl', ['$scope', '$cookieStore', '$rootScope', 'angularFire', function ($scope, $cookieStore, $rootScope, angularFire) {
-    var url = 'https://photosharingapp.firebaseio.com/posts';
     $scope.posts = [];
     var myDataRef = new Firebase('https://photosharingapp.firebaseio.com/posts');
     angularFire(myDataRef, $scope, "posts").then(function () {

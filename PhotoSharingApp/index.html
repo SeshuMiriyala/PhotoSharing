@@ -24,7 +24,7 @@
                     <a class="brand">Coding Bugs</a>
                     <div class="nav-collapse">
                         <ul class="nav">
-                            <li class="active"><a href="" ng-click="home()"><i class="icon-home"></i>Home</a></li>
+                            <li class="active"><a ng-click="home()"><i class="icon-home"></i>Home</a></li>
                             <li class="divider-vertical"></li>
                             <li><a href=""><i class="icon-file"></i>Pages</a></li>
                             <li class="divider-vertical"></li>
@@ -46,12 +46,7 @@
                                         <form accept-charset="UTF-8">
                                             <input style="margin-bottom: 15px;" type="text" placeholder="Username" id="username" name="username" ng-model="username" focus-me="IsSignInVisible" required />
                                             <input style="margin-bottom: 15px;" type="password" placeholder="Password" id="password" name="password" ng-model="password" required />
-                                            <!--<input style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" id="remember-me" value="1">
-                                                <label class="string optional" for="user_remember_me"> Remember me</label>-->
                                             <input class="btn btn-primary btn-block" type="submit" id="sign-in" value="Sign In" ng-click="login()" />
-                                            <!--<label style="text-align:center;margin-top:5px">or</label>
-                                                <input class="btn btn-primary btn-block" type="button" id="sign-in-google" value="Sign In with Google">
-                                                <input class="btn btn-primary btn-block" type="button" id="sign-in-twitter" value="Sign In with Twitter">-->
                                         </form>
                                     </div>
                                 </div>
@@ -63,41 +58,42 @@
                             <li><a href="" ng-click="logout()"><i class="icon-signout"></i>Sign Out</a></li>
                         </ul>
                     </div>
-                    <!--/.nav-collapse -->
                 </div>
-                <!--/.container-fluid -->
             </div>
-            <!--/.navbar-inner -->
         </div>
         <div id="login-holder" style="display: none;">
-        <div id="loginbox">
-            <div id="login-inner" ng:controller="loginCtrl">
-                <span class="text-error" style="margin-bottom: 15px;"><i class="icon-warning-sign" style="margin-right: 3px;"></i>Please sign In to post message</span>
-                <form ng-submit="submit()">
-                    <table border="0" cellpadding="0" cellspacing="0">
-                        <tbody>
-                            <tr>
-                                <td>Username</td>
-                                <td>
-                                    <input placeholder="Username" type="text" class="login-inp ng-pristine ng-valid" ng-model="username" /></td>
-                            </tr>
-                            <tr>
-                                <td>Password</td>
-                                <td>
-                                    <input placeholder="Password" type="password" class="login-inp ng-pristine ng-valid" ng-model="password" /></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="submit" class="btn btn-primary btn-block" ng-click="login()" /></td>
-                                <td>
-                                    <input type="reset" class="btn btn-primary btn-danger" ng-click="reset()" /></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </form>
+            <div id="loginbox">
+                <span class="text-error"><i class="icon-warning-sign" style="margin-right: 3px;"></i>Please sign In to post message</span>
+                <a href="" ng-click="reset()"><i class="close-icon2">X</i></a>
+                <div id="login-inner" ng-controller="loginCtrl">
+                    <form ng-submit="submit()">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>Username</td>
+                                    <td>
+                                        <input placeholder="Username" type="text" ng-model="username" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Password</td>
+                                    <td>
+                                        <input placeholder="Password" type="password" ng-model="password" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="submit" class="btn btn-primary btn-block" ng-click="login()" />
+                                    </td>
+                                    <td>
+                                        <input type="reset" class="btn btn-primary btn-danger" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
             </div>
-          <div class="clear"></div>
-        </div>
       </div>
         <div ng-view></div>
     </div>

@@ -15,8 +15,6 @@ i.close-icon {
     position: absolute;
     margin-top: 400px;
     margin-left: 100px;
-    padding-top: 50px;
-    padding-left: 60px;
     border-radius: 15px;
     z-index: 1001;
     position: relative;
@@ -36,7 +34,11 @@ i.close-icon {
     right: -100px;
     position: absolute;
 }
-#login-inner td {
+#login-inner {
+    padding-top: 50px;
+    padding-left: 60px;
+}
+#login-inner td{
     padding: 5px;
 }
 #lblMsg {
@@ -59,4 +61,13 @@ label {
     box-shadow: 0 0 10px #888888;
     border: 0;
     zoom: 1.5;
+}
+.close-icon2 {
+    margin-right: 15px;
+    margin-top: 5px;
+    float: right;
+}
+.sign-msg {
+    margin-top: 20px;
+    margin-left: 20px;
 }
